@@ -1,5 +1,8 @@
-﻿using Happy.Weddings.Blog.Core.Domain;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Happy.Weddings.Blog.Core.Domain;
 using Happy.Weddings.Blog.Core.DTO.Requests;
+using Happy.Weddings.Blog.Core.DTO.Responses;
 using Happy.Weddings.Blog.Core.Entity;
 using Happy.Weddings.Blog.Core.Helpers;
 using Happy.Weddings.Blog.Core.Repository;
@@ -14,27 +17,35 @@ namespace Happy.Weddings.Blog.Data.Repository
     public class StoriesRepository : RepositoryBase<Stories>, IStoriesRepository
     {
         /// <summary>
+        /// The mapper
+        /// </summary>
+        private IMapper mapper;
+
+        /// <summary>
         /// The sort helper
         /// </summary>
-        private ISortHelper<Stories> sortHelper;
+        private ISortHelper<StoryResponse> sortHelper;
 
         /// <summary>
         /// The data shaper
         /// </summary>
-        private IDataShaper<Stories> dataShaper;
+        private IDataShaper<StoryResponse> dataShaper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StoriesRepository" /> class.
         /// </summary>
         /// <param name="repositoryContext">The repository context.</param>
+        /// <param name="mapper">The mapper.</param>
         /// <param name="sortHelper">The sort helper.</param>
-        /// <param name="sortHelper">The sort helper.</param>
+        /// <param name="dataShaper">The data shaper.</param>
         public StoriesRepository(
-            BlogContext repositoryContext, 
-            ISortHelper<Stories> sortHelper, 
-            IDataShaper<Stories> dataShaper)
+            BlogContext repositoryContext,
+            IMapper mapper,
+            ISortHelper<StoryResponse> sortHelper, 
+            IDataShaper<StoryResponse> dataShaper)
             : base(repositoryContext)
         {
+            this.mapper = mapper;
             this.sortHelper = sortHelper;
             this.dataShaper = dataShaper;
         }
@@ -46,7 +57,7 @@ namespace Happy.Weddings.Blog.Data.Repository
         /// <returns></returns>
         public async Task<PagedList<Entity>> GetAllStories(StoryParameters storyParameters)
         {
-            var stories = FindAll();
+            var stories = FindAll().ProjectTo<StoryResponse>(mapper.ConfigurationProvider);
             SearchByTitle(ref stories, storyParameters.Name);
             FilterByDate(ref stories, storyParameters.FromDate, storyParameters.ToDate);
             var sortedStories = sortHelper.ApplySort(stories, storyParameters.OrderBy);
@@ -65,6 +76,7 @@ namespace Happy.Weddings.Blog.Data.Repository
         {
             var story = await FindByCondition(story => story.StoryId.Equals(storyId))
                 .DefaultIfEmpty(new Stories())
+                .ProjectTo<StoryResponse>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
 
             return dataShaper.ShapeData(story, fields);
@@ -125,7 +137,7 @@ namespace Happy.Weddings.Blog.Data.Repository
         /// </summary>
         /// <param name="stories">The stories.</param>
         /// <param name="title">The title.</param>
-        private void SearchByTitle(ref IQueryable<Stories> stories, string title)
+        private void SearchByTitle(ref IQueryable<StoryResponse> stories, string title)
         {
             if (!stories.Any() || string.IsNullOrWhiteSpace(title))
                 return;
@@ -139,7 +151,7 @@ namespace Happy.Weddings.Blog.Data.Repository
         /// <param name="stories">The stories.</param>
         /// <param name="fromDate">From date.</param>
         /// <param name="toDate">To date.</param>
-        private void FilterByDate(ref IQueryable<Stories> stories, DateTime? fromDate, DateTime? toDate)
+        private void FilterByDate(ref IQueryable<StoryResponse> stories, DateTime? fromDate, DateTime? toDate)
         {
             if (!stories.Any())
                 return;

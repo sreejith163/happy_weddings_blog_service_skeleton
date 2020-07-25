@@ -59,10 +59,10 @@ namespace Happy.Weddings.Blog.API.Extensions
             services.AddTransient<IRequestHandler<UpdateStoryCommand, APIResponse>, UpdateStoryHandler>();
             services.AddTransient<IRequestHandler<DeleteStoryCommand, APIResponse>, DeleteStoryHandler>();
 
-            services.AddScoped<ISortHelper<Stories>, SortHelper<Stories>>();
+            services.AddScoped<ISortHelper<StoryResponse>, SortHelper<StoryResponse>>();
             services.AddScoped<ISortHelper<Comments>, SortHelper<Comments>>();
 
-            services.AddScoped<IDataShaper<Stories>, DataShaper<Stories>>();
+            services.AddScoped<IDataShaper<StoryResponse>, DataShaper<StoryResponse>>();
             services.AddScoped<IDataShaper<Comments>, DataShaper<Comments>>();
 
             services.AddTransient<IConfigurationManager, ConfigurationManager>();

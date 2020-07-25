@@ -29,22 +29,22 @@ namespace Happy.Weddings.Blog.Core.DTO.Responses
         /// <summary>
         /// Gets or sets the created by.
         /// </summary>
-        public Guid CreatedBy { get; set; }
+        public string CreatedBy { get; set; }
 
         /// <summary>
         /// Gets or sets the created on.
         /// </summary>
-        public DateTime CreatedOn { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         /// <summary>
         /// Gets or sets the updated by.
         /// </summary>
-        public Guid UpdatedBy { get; set; }
+        public string UpdatedBy { get; set; }
 
         /// <summary>
         /// Gets or sets the updated on.
         /// </summary>
-        public DateTime UpdatedOn { get; set; }
+        public DateTime UpdatedDate { get; set; }
 
         /// <summary>
         /// Gets or sets the comments.

@@ -1,4 +1,6 @@
-﻿using Happy.Weddings.Blog.Core.Entity;
+﻿using AutoMapper;
+using Happy.Weddings.Blog.Core.DTO.Responses;
+using Happy.Weddings.Blog.Core.Entity;
 using Happy.Weddings.Blog.Core.Helpers;
 using Happy.Weddings.Blog.Core.Repository;
 using Happy.Weddings.Blog.Data.DatabaseContext;
@@ -24,9 +26,14 @@ namespace Happy.Weddings.Blog.Data.Repository
         private ICommentsRepository comments { get; set; }
 
         /// <summary>
+        /// The mapper
+        /// </summary>
+        private IMapper mapper;
+
+        /// <summary>
         /// The stories sort helper
         /// </summary>
-        private ISortHelper<Stories> storiesSortHelper;
+        private ISortHelper<StoryResponse> storiesSortHelper;
 
         /// <summary>
         /// The comments sort helper
@@ -36,7 +43,7 @@ namespace Happy.Weddings.Blog.Data.Repository
         /// <summary>
         /// The stories data shaper
         /// </summary>
-        private IDataShaper<Stories> storiesDataShaper;
+        private IDataShaper<StoryResponse> storiesDataShaper;
 
         /// <summary>
         /// The comments data shaper
@@ -52,7 +59,7 @@ namespace Happy.Weddings.Blog.Data.Repository
             {
                 if (stories == null)
                 {
-                    stories = new StoriesRepository(repositoryContext, storiesSortHelper, storiesDataShaper);
+                    stories = new StoriesRepository(repositoryContext, mapper, storiesSortHelper, storiesDataShaper);
                 }
                 return stories;
             }
@@ -77,18 +84,21 @@ namespace Happy.Weddings.Blog.Data.Repository
         /// Initializes a new instance of the <see cref="RepositoryWrapper" /> class.
         /// </summary>
         /// <param name="repositoryContext">The repository context.</param>
+        /// <param name="mapper">The mapper.</param>
         /// <param name="storiesSortHelper">The stories sort helper.</param>
         /// <param name="commentsSortHelper">The comments sort helper.</param>
         /// <param name="storiesDataShaper">The stories data shaper.</param>
         /// <param name="commentsDataShaper">The comments data shaper.</param>
         public RepositoryWrapper(
-            BlogContext repositoryContext, 
-            ISortHelper<Stories> storiesSortHelper, 
+            BlogContext repositoryContext,
+            IMapper mapper,
+            ISortHelper<StoryResponse> storiesSortHelper, 
             ISortHelper<Comments> commentsSortHelper,
-            IDataShaper<Stories> storiesDataShaper,
+            IDataShaper<StoryResponse> storiesDataShaper,
             IDataShaper<Comments> commentsDataShaper)
         {
             this.repositoryContext = repositoryContext;
+            this.mapper = mapper;
             this.storiesSortHelper = storiesSortHelper;
             this.commentsSortHelper = commentsSortHelper;
             this.storiesDataShaper = storiesDataShaper;
