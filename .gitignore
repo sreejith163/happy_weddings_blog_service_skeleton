@@ -1,0 +1,14 @@
+/src/Happy.Weddings.Blog.API/bin
+/src/Happy.Weddings.Blog.API/Logs
+/src/Happy.Weddings.Blog.API/obj
+/src/Happy.Weddings.Blog.Core/bin
+/src/Happy.Weddings.Blog.Core/obj
+/src/Happy.Weddings.Blog.Infrastructure/bin
+/src/Happy.Weddings.Blog.Infrastructure/obj
+/src/Happy.Weddings.Blog.Messaging/bin
+/src/Happy.Weddings.Blog.Messaging/obj
+/src/Happy.Weddings.Blog.Service/bin
+/src/Happy.Weddings.Blog.Service/obj
+/.vs
+global.json
+
