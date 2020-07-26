@@ -36,7 +36,7 @@ namespace Happy.Weddings.Blog.Messaging.Receiver.v1
         /// <summary>
         /// The queue name
         /// </summary>
-        private readonly string queueName;
+        private string queueName;
 
         /// <summary>
         /// The exchange name
@@ -87,20 +87,22 @@ namespace Happy.Weddings.Blog.Messaging.Receiver.v1
             consumer.Received += (ch, ea) =>
             {
                 var body = ea.Body.ToArray();
-                var content = Encoding.UTF8.GetString(body);
-                var updateCustomerFullNameModel = JsonConvert.DeserializeObject<UpdateUserFullNameModel>(content);
+                var message = Encoding.UTF8.GetString(body);
 
-                HandleMessage(updateCustomerFullNameModel);
+                var updateUserFullNameModel = JsonConvert.DeserializeObject<UpdateUserFullNameModel>(message);
+                HandleMessage(updateUserFullNameModel);
 
-                channel.BasicAck(ea.DeliveryTag, false);
+                channel.BasicAck(ea.DeliveryTag, true);
             };
+
             consumer.Shutdown += OnConsumerShutdown;
             consumer.Registered += OnConsumerRegistered;
             consumer.Unregistered += OnConsumerUnregistered;
             consumer.ConsumerCancelled += OnConsumerConsumerCancelled;
 
-            channel.BasicConsume(queueName, false, consumer);
-
+            channel.BasicConsume(queue: queueName,
+                                 autoAck: true,
+                                 consumer: consumer);
             return Task.CompletedTask;
         }
 
@@ -119,7 +121,11 @@ namespace Happy.Weddings.Blog.Messaging.Receiver.v1
             connection = factory.CreateConnection();
             connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
             channel = connection.CreateModel();
-            channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
+            channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Direct);
+            queueName = channel.QueueDeclare().QueueName;
+            channel.QueueBind(queue: queueName,
+                              exchange: exchangeName,
+                              routingKey: "");
         }
 
         /// <summary>
