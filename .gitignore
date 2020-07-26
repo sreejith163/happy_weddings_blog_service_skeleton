@@ -3,6 +3,8 @@
 /src/Happy.Weddings.Blog.API/obj
 /src/Happy.Weddings.Blog.Core/bin
 /src/Happy.Weddings.Blog.Core/obj
+/src/Happy.Weddings.Blog.Data/bin
+/src/Happy.Weddings.Blog.Data/obj
 /src/Happy.Weddings.Blog.Infrastructure/bin
 /src/Happy.Weddings.Blog.Infrastructure/obj
 /src/Happy.Weddings.Blog.Messaging/bin
