@@ -5,7 +5,6 @@ using Happy.Weddings.Blog.Core.DTO;
 using Happy.Weddings.Blog.Core.Infrastructure;
 using Happy.Weddings.Blog.Core.Services;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -95,7 +94,6 @@ namespace Happy.Weddings.Blog.Messaging.Receiver.v1
 
                 channel.BasicAck(ea.DeliveryTag, false);
             };
-
             consumer.Shutdown += OnConsumerShutdown;
             consumer.Registered += OnConsumerRegistered;
             consumer.Unregistered += OnConsumerUnregistered;
@@ -121,12 +119,7 @@ namespace Happy.Weddings.Blog.Messaging.Receiver.v1
             connection = factory.CreateConnection();
             connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
             channel = connection.CreateModel();
-            channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Fanout);
-
-            var queueName = channel.QueueDeclare().QueueName;
-            channel.QueueBind(queue: queueName,
-                              exchange: exchangeName,
-                              routingKey: "");
+            channel.QueueDeclare(queue: queueName, durable: false, exclusive: false, autoDelete: false, arguments: null);
         }
 
         /// <summary>
