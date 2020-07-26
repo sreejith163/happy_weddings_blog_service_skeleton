@@ -1,8 +1,8 @@
-﻿using Happy.Weddings.Blog.Core.DTO.Requests;
+﻿using Happy.Weddings.Blog.Core.DTO.Requests.Story;
 using Happy.Weddings.Blog.Core.Entity;
 using System;
 
-namespace Happy.Weddings.Blog.Core.Profile
+namespace Happy.Weddings.Blog.Core.Profile.Story
 {
     public class CreateStoryProfile : AutoMapper.Profile
     {

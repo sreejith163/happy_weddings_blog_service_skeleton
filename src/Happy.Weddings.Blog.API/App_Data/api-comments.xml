@@ -20,7 +20,7 @@
             </summary>
             <param name="mediator">The mediator.</param>
         </member>
-        <member name="M:Happy.Weddings.Blog.API.Controllers.v1.StoriesController.GetStories(Happy.Weddings.Blog.Core.DTO.Requests.StoryParameters)">
+        <member name="M:Happy.Weddings.Blog.API.Controllers.v1.StoriesController.GetStories(Happy.Weddings.Blog.Core.DTO.Requests.Story.StoryParameters)">
             <summary>
             Gets the stories.
             </summary>
@@ -34,14 +34,14 @@
             <param name="storyId">The story identifier.</param>
             <returns></returns>
         </member>
-        <member name="M:Happy.Weddings.Blog.API.Controllers.v1.StoriesController.CreateStory(Happy.Weddings.Blog.Core.DTO.Requests.CreateStoryRequest)">
+        <member name="M:Happy.Weddings.Blog.API.Controllers.v1.StoriesController.CreateStory(Happy.Weddings.Blog.Core.DTO.Requests.Story.CreateStoryRequest)">
             <summary>
             Creates the story.
             </summary>
             <param name="request">The request.</param>
             <returns></returns>
         </member>
-        <member name="M:Happy.Weddings.Blog.API.Controllers.v1.StoriesController.UpdateStory(System.Int32,Happy.Weddings.Blog.Core.DTO.Requests.UpdateStoryRequest)">
+        <member name="M:Happy.Weddings.Blog.API.Controllers.v1.StoriesController.UpdateStory(System.Int32,Happy.Weddings.Blog.Core.DTO.Requests.Story.UpdateStoryRequest)">
             <summary>
             Updates the story.
             </summary>

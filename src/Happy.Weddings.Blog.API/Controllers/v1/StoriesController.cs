@@ -1,11 +1,9 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using Happy.Weddings.Blog.Core.Domain;
-using Happy.Weddings.Blog.Core.DTO.Requests;
-using Happy.Weddings.Blog.Core.Entity;
-using Happy.Weddings.Blog.Service.Commands.v1;
-using Happy.Weddings.Blog.Service.Queries.v1;
+using Happy.Weddings.Blog.Core.DTO.Requests.Story;
+using Happy.Weddings.Blog.Service.Commands.v1.Story;
+using Happy.Weddings.Blog.Service.Queries.v1.Story;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

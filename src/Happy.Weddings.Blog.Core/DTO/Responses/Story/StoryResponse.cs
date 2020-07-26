@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Happy.Weddings.Blog.Core.DTO.Responses
+namespace Happy.Weddings.Blog.Core.DTO.Responses.Story
 {
     public class StoryResponse
     {

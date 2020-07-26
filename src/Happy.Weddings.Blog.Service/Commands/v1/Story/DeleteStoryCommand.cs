@@ -2,7 +2,7 @@
 using MediatR;
 using System;
 
-namespace Happy.Weddings.Blog.Service.Commands.v1
+namespace Happy.Weddings.Blog.Service.Commands.v1.Story
 {
     /// <summary>
     /// Command for deleting a story

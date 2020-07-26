@@ -1,8 +1,8 @@
-﻿using Happy.Weddings.Blog.Core.DTO.Requests;
+﻿using Happy.Weddings.Blog.Core.DTO.Requests.Story;
 using Happy.Weddings.Blog.Core.DTO.Responses;
 using MediatR;
 
-namespace Happy.Weddings.Blog.Service.Commands.v1
+namespace Happy.Weddings.Blog.Service.Commands.v1.Story
 {
     /// <summary>
     /// Command for creating a story

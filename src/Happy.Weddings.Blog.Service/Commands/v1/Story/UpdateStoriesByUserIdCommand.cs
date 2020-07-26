@@ -3,7 +3,7 @@ using Happy.Weddings.Blog.Core.Entity;
 using MediatR;
 using System.Collections.Generic;
 
-namespace Happy.Weddings.Blog.Service.Commands.v1
+namespace Happy.Weddings.Blog.Service.Commands.v1.Story
 {
     /// <summary>
     /// Command for updating a stories based on user id

@@ -1,20 +1,20 @@
-﻿using Happy.Weddings.Blog.Core.DTO.Responses;
+﻿using Happy.Weddings.Blog.Core.Entity;
 using Happy.Weddings.Blog.Core.Repository;
-using Happy.Weddings.Blog.Service.Queries.v1;
+using Happy.Weddings.Blog.Service.Queries.v1.Story;
 using MediatR;
 using Serilog;
 using System;
-using System.Net;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Happy.Weddings.Blog.Service.Handlers.v1
+namespace Happy.Weddings.Blog.Service.Handlers.v1.Story
 {
     /// <summary>
-    /// Handler for getting all stories
+    /// Handler for getting a story
     /// </summary>
-    /// <seealso cref="MediatR.IRequestHandler{Happy.Weddings.Blog.Service.v1.Queries.GetAllStoriesQuery, Happy.Weddings.Blog.Core.DTO.Responses.APIResponse}" />
-    public class GetAllStoriesHandler : IRequestHandler<GetAllStoriesQuery, APIResponse>
+    /// <seealso cref="MediatR.IRequestHandler{Happy.Weddings.Blog.Service.v1.Queries.GetStoryByUserIdQuery, Happy.Weddings.Blog.Core.DTO.Responses.APIResponse}" />
+    public class GetStoryByUserIdHandler : IRequestHandler<GetStoryByUserIdQuery, List<Stories>>
     {
         /// <summary>
         /// The repository
@@ -27,11 +27,11 @@ namespace Happy.Weddings.Blog.Service.Handlers.v1
         private readonly ILogger logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GetAllStoriesHandler" /> class.
+        /// Initializes a new instance of the <see cref="GetStoryHandler" /> class.
         /// </summary>
         /// <param name="repository">The repository.</param>
         /// <param name="logger">The logger.</param>
-        public GetAllStoriesHandler(
+        public GetStoryByUserIdHandler(
             IRepositoryWrapper repository,
             ILogger logger)
         {
@@ -47,18 +47,16 @@ namespace Happy.Weddings.Blog.Service.Handlers.v1
         /// <returns>
         /// Response from the request
         /// </returns>
-        public async Task<APIResponse> Handle(GetAllStoriesQuery request, CancellationToken cancellationToken)
+        public async Task<List<Stories>> Handle(GetStoryByUserIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                var stories = await repository.Stories.GetAllStories(request.StoryParameters);
-                return new APIResponse(stories, HttpStatusCode.OK);
+                return await repository.Stories.GetStoriesByUserId(request.UserId);
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "Exception in method 'GetAllStoriesHandler()'");
-                var exMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-                return await Task.FromResult(new APIResponse(exMessage, HttpStatusCode.InternalServerError));
+                logger.Error(ex, "Exception in method 'GetStoriesByUserIdHandler()'");
+                return await Task.FromResult(new List<Stories>());
             }
         }
     }

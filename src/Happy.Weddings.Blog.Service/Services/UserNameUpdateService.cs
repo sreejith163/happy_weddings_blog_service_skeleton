@@ -1,7 +1,7 @@
 ﻿using Happy.Weddings.Blog.Core.DTO;
 using Happy.Weddings.Blog.Core.Services;
-using Happy.Weddings.Blog.Service.Commands.v1;
-using Happy.Weddings.Blog.Service.Queries.v1;
+using Happy.Weddings.Blog.Service.Commands.v1.Story;
+using Happy.Weddings.Blog.Service.Queries.v1.Story;
 using MediatR;
 using System.Linq;
 using System.Threading.Tasks;

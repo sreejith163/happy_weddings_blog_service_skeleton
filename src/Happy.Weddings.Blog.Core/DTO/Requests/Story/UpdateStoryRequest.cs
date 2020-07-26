@@ -1,6 +1,6 @@
-﻿namespace Happy.Weddings.Blog.Core.DTO.Requests
+﻿namespace Happy.Weddings.Blog.Core.DTO.Requests.Story
 {
-    public class CreateStoryRequest
+    public class UpdateStoryRequest
     {
         /// <summary>
         /// Gets or sets the title.
@@ -13,13 +13,8 @@
         public string Description { get; set; }
 
         /// <summary>
-        /// Gets or sets the author.
-        /// </summary>
-        public string Author { get; set; }
-
-        /// <summary>
         /// Gets or sets the created by.
         /// </summary>
-        public string CreatedBy { get; set; }
+        public string UpdatedBy { get; set; }
     }
 }

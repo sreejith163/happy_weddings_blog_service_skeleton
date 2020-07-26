@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Happy.Weddings.Blog.Core.Domain;
-using Happy.Weddings.Blog.Core.DTO.Requests;
-using Happy.Weddings.Blog.Core.DTO.Responses;
+using Happy.Weddings.Blog.Core.DTO.Requests.Story;
+using Happy.Weddings.Blog.Core.DTO.Responses.Story;
 using Happy.Weddings.Blog.Core.Entity;
 using Happy.Weddings.Blog.Core.Helpers;
 using Happy.Weddings.Blog.Core.Repository;

@@ -1,5 +1,5 @@
 ﻿using Happy.Weddings.Blog.Core.Domain;
-using Happy.Weddings.Blog.Core.DTO.Requests;
+using Happy.Weddings.Blog.Core.DTO.Requests.Story;
 using Happy.Weddings.Blog.Core.Entity;
 using System.Collections.Generic;
 using System.Threading.Tasks;

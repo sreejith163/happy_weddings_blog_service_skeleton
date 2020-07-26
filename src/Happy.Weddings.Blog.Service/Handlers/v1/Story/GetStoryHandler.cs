@@ -1,7 +1,6 @@
-﻿using AutoMapper;
-using Happy.Weddings.Blog.Core.DTO.Responses;
+﻿using Happy.Weddings.Blog.Core.DTO.Responses;
 using Happy.Weddings.Blog.Core.Repository;
-using Happy.Weddings.Blog.Service.Commands.v1;
+using Happy.Weddings.Blog.Service.Queries.v1.Story;
 using MediatR;
 using Serilog;
 using System;
@@ -9,13 +8,13 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Happy.Weddings.Blog.Service.Handlers.v1
+namespace Happy.Weddings.Blog.Service.Handlers.v1.Story
 {
     /// <summary>
-    /// Handler for updating a story
+    /// Handler for getting a story
     /// </summary>
-    /// <seealso cref="MediatR.IRequestHandler{Happy.Weddings.Blog.Service.v1.Commands.UpdateStoryCommand, Happy.Weddings.Blog.Core.DTO.Responses.APIResponse}" />
-    public class UpdateStoryHandler : IRequestHandler<UpdateStoryCommand, APIResponse>
+    /// <seealso cref="MediatR.IRequestHandler{Happy.Weddings.Blog.Service.v1.Queries.GetStoryQuery, Happy.Weddings.Blog.Core.DTO.Responses.APIResponse}" />
+    public class GetStoryHandler : IRequestHandler<GetStoryQuery, APIResponse>
     {
         /// <summary>
         /// The repository
@@ -23,28 +22,20 @@ namespace Happy.Weddings.Blog.Service.Handlers.v1
         private IRepositoryWrapper repository;
 
         /// <summary>
-        /// The mapper
-        /// </summary>
-        private readonly IMapper mapper;
-
-        /// <summary>
         /// The logger
         /// </summary>
         private readonly ILogger logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateStoryHandler" /> class.
+        /// Initializes a new instance of the <see cref="GetStoryHandler" /> class.
         /// </summary>
         /// <param name="repository">The repository.</param>
-        /// <param name="mapper">The mapper.</param>
         /// <param name="logger">The logger.</param>
-        public UpdateStoryHandler(
+        public GetStoryHandler(
             IRepositoryWrapper repository,
-            IMapper mapper,
             ILogger logger)
         {
             this.repository = repository;
-            this.mapper = mapper;
             this.logger = logger;
         }
 
@@ -56,26 +47,21 @@ namespace Happy.Weddings.Blog.Service.Handlers.v1
         /// <returns>
         /// Response from the request
         /// </returns>
-        public async Task<APIResponse> Handle(UpdateStoryCommand request, CancellationToken cancellationToken)
+        public async Task<APIResponse> Handle(GetStoryQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                var story = await repository.Stories.GetStoryById(request.StoryId);
+                var story = await repository.Stories.GetStoryWithDetails(request.StoryId);
                 if (story == null)
                 {
                     return await Task.FromResult(new APIResponse(HttpStatusCode.NotFound));
                 }
 
-                var storyRequest = mapper.Map(request.Request, story);
-                repository.Stories.UpdateStory(storyRequest);
-
-                await repository.SaveAsync();
-
-                return await Task.FromResult(new APIResponse(HttpStatusCode.NoContent));
+                return await Task.FromResult(new APIResponse(story, HttpStatusCode.OK));
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "Exception in method 'UpdateStoryHandler()'");
+                logger.Error(ex, "Exception in method 'GetStoryHandler()'");
                 var exMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
                 return await Task.FromResult(new APIResponse(exMessage, HttpStatusCode.InternalServerError));
             }

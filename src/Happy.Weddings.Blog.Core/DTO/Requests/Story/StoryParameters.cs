@@ -1,7 +1,7 @@
 ﻿using Happy.Weddings.Blog.Core.Domain;
 using System;
 
-namespace Happy.Weddings.Blog.Core.DTO.Requests
+namespace Happy.Weddings.Blog.Core.DTO.Requests.Story
 {
     public class StoryParameters : QueryStringParameters
     {

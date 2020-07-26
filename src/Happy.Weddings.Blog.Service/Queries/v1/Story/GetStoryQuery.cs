@@ -1,8 +1,7 @@
 ﻿using Happy.Weddings.Blog.Core.DTO.Responses;
 using MediatR;
-using System;
 
-namespace Happy.Weddings.Blog.Service.Queries.v1
+namespace Happy.Weddings.Blog.Service.Queries.v1.Story
 {
     /// <summary>
     /// Query for getting a story

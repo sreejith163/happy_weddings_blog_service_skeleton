@@ -2,7 +2,7 @@
 using MediatR;
 using System.Collections.Generic;
 
-namespace Happy.Weddings.Blog.Service.Queries.v1
+namespace Happy.Weddings.Blog.Service.Queries.v1.Story
 {
     /// <summary>
     /// Query for getting a story

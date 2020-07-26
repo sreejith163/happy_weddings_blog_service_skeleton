@@ -1,6 +1,6 @@
 ﻿using Happy.Weddings.Blog.Core.DTO.Responses;
 using Happy.Weddings.Blog.Core.Repository;
-using Happy.Weddings.Blog.Service.Commands.v1;
+using Happy.Weddings.Blog.Service.Commands.v1.Story;
 using MediatR;
 using Serilog;
 using System;
@@ -8,7 +8,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Happy.Weddings.Blog.Service.Handlers.v1
+namespace Happy.Weddings.Blog.Service.Handlers.v1.Story
 {
     /// <summary>
     /// Handler for deleting a story
