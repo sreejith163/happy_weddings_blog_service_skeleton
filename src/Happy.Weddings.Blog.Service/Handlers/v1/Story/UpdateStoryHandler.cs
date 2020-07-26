@@ -63,7 +63,7 @@ namespace Happy.Weddings.Blog.Service.Handlers.v1.Story
                 var story = await repository.Stories.GetStoryById(request.StoryId);
                 if (story == null)
                 {
-                    return await Task.FromResult(new APIResponse(HttpStatusCode.NotFound));
+                    return new APIResponse(HttpStatusCode.NotFound);
                 }
 
                 var storyRequest = mapper.Map(request.Request, story);
@@ -71,13 +71,13 @@ namespace Happy.Weddings.Blog.Service.Handlers.v1.Story
 
                 await repository.SaveAsync();
 
-                return await Task.FromResult(new APIResponse(HttpStatusCode.NoContent));
+                return new APIResponse(HttpStatusCode.NoContent);
             }
             catch (Exception ex)
             {
                 logger.Error(ex, "Exception in method 'UpdateStoryHandler()'");
                 var exMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-                return await Task.FromResult(new APIResponse(exMessage, HttpStatusCode.InternalServerError));
+                return new APIResponse(exMessage, HttpStatusCode.InternalServerError);
             }
         }
     }

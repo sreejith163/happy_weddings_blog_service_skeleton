@@ -58,7 +58,7 @@ namespace Happy.Weddings.Blog.Service.Handlers.v1.Story
             {
                 logger.Error(ex, "Exception in method 'GetAllStoriesHandler()'");
                 var exMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-                return await Task.FromResult(new APIResponse(exMessage, HttpStatusCode.InternalServerError));
+                return new APIResponse(exMessage, HttpStatusCode.InternalServerError);
             }
         }
     }

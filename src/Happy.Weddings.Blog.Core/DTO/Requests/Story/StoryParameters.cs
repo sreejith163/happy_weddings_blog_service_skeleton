@@ -5,6 +5,9 @@ namespace Happy.Weddings.Blog.Core.DTO.Requests.Story
 {
     public class StoryParameters : QueryStringParameters
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StoryParameters"/> class.
+        /// </summary>
         public StoryParameters()
         {
             OrderBy = "Title";

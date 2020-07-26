@@ -56,7 +56,7 @@ namespace Happy.Weddings.Blog.Service.Handlers.v1.Story
             catch (Exception ex)
             {
                 logger.Error(ex, "Exception in method 'GetStoriesByUserIdHandler()'");
-                return await Task.FromResult(new List<Stories>());
+                return new List<Stories>();
             }
         }
     }

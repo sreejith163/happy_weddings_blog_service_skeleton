@@ -66,13 +66,13 @@ namespace Happy.Weddings.Blog.Service.Handlers.v1.Story
 
                 await repository.SaveAsync();
 
-                return await Task.FromResult(new APIResponse(storyRequest, HttpStatusCode.Created));
+                return new APIResponse(storyRequest, HttpStatusCode.Created);
             }
             catch (Exception ex)
             {
                 logger.Error(ex, "Exception in method 'CreateStoryHandler()'");
                 var exMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-                return await Task.FromResult(new APIResponse(exMessage, HttpStatusCode.InternalServerError));
+                return new APIResponse(exMessage, HttpStatusCode.InternalServerError);
             }
         }
     }

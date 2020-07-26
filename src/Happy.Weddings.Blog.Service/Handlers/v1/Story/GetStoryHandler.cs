@@ -54,16 +54,16 @@ namespace Happy.Weddings.Blog.Service.Handlers.v1.Story
                 var story = await repository.Stories.GetStoryWithDetails(request.StoryId);
                 if (story == null)
                 {
-                    return await Task.FromResult(new APIResponse(HttpStatusCode.NotFound));
+                    return new APIResponse(HttpStatusCode.NotFound);
                 }
 
-                return await Task.FromResult(new APIResponse(story, HttpStatusCode.OK));
+                return new APIResponse(story, HttpStatusCode.OK);
             }
             catch (Exception ex)
             {
                 logger.Error(ex, "Exception in method 'GetStoryHandler()'");
                 var exMessage = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-                return await Task.FromResult(new APIResponse(exMessage, HttpStatusCode.InternalServerError));
+                return new APIResponse(exMessage, HttpStatusCode.InternalServerError);
             }
         }
     }
