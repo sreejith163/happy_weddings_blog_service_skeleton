@@ -121,8 +121,9 @@ namespace Happy.Weddings.Blog.Messaging.Receiver.v1
             connection = factory.CreateConnection();
             connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
             channel = connection.CreateModel();
+
+            channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
             channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Direct);
-            queueName = channel.QueueDeclare().QueueName;
             channel.QueueBind(queue: queueName,
                               exchange: exchangeName,
                               routingKey: "");
