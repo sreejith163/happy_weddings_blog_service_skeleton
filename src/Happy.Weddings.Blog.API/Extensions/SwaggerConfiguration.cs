@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Filters;
 
 namespace Happy.Weddings.Blog.API.Extensions
 {
@@ -24,28 +23,9 @@ namespace Happy.Weddings.Blog.API.Extensions
                     configuration["Version"],
                     new OpenApiInfo { Title = configuration["Title"], Version = configuration["Version"] });
                 c.IncludeXmlComments(@"App_Data\api-comments.xml");
-                c.AddSecurityDefinition("Bearer", GetSwaggerSecurityScheme());
-                c.OperationFilter<SecurityRequirementsOperationFilter>("Bearer");
             });
 
             return services;
-        }
-
-        /// <summary>
-        /// Gets the swagger security scheme.
-        /// </summary>
-        /// <returns></returns>
-        private static OpenApiSecurityScheme GetSwaggerSecurityScheme()
-        {
-            return new OpenApiSecurityScheme
-            {
-                Description = "JWT Authorization header. Example: " + "{token}",
-                Name = "Authorization",
-                In = ParameterLocation.Header,
-                Scheme = "bearer",
-                Type = SecuritySchemeType.Http,
-                BearerFormat = "JWT"
-            };
         }
     }
 }

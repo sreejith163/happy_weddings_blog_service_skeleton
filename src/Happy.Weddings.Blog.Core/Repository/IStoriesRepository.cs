@@ -1,5 +1,6 @@
 ﻿using Happy.Weddings.Blog.Core.Domain;
 using Happy.Weddings.Blog.Core.DTO.Requests.Story;
+using Happy.Weddings.Blog.Core.DTO.Responses.Story;
 using Happy.Weddings.Blog.Core.Entity;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,14 +15,6 @@ namespace Happy.Weddings.Blog.Core.Repository
         /// <param name="storyParameters">The story parameters.</param>
         /// <returns></returns>
         Task<PagedList<Domain.Entity>> GetAllStories(StoryParameters storyParameters);
-
-        /// <summary>
-        /// Gets the story by identifier.
-        /// </summary>
-        /// <param name="storyId">The story identifier.</param>
-        /// <param name="fields">The fields.</param>
-        /// <returns></returns>
-        Task<Domain.Entity> GetStoryById(int storyId, string fields);
 
         /// <summary>
         /// Gets the story by identifier.
@@ -42,7 +35,7 @@ namespace Happy.Weddings.Blog.Core.Repository
         /// </summary>
         /// <param name="storyId">The story identifier.</param>
         /// <returns></returns>
-        Task<Stories> GetStoryWithDetails(int storyId);
+        Task<StoryResponseDetails> GetStoryWithDetails(int storyId);
 
         /// <summary>
         /// Creates the story.

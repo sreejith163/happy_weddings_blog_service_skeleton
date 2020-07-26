@@ -125,12 +125,6 @@
             <param name="configuration">The configuration.</param>
             <returns></returns>
         </member>
-        <member name="M:Happy.Weddings.Blog.API.Extensions.SwaggerConfiguration.GetSwaggerSecurityScheme">
-            <summary>
-            Gets the swagger security scheme.
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:Happy.Weddings.Blog.API.Filters.SerilogPropertyFilter">
             <summary>
             Serilog filter for adding dynamic properties

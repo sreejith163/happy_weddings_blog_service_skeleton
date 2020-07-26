@@ -151,7 +151,7 @@ namespace Happy.Weddings.Blog.Data.DatabaseContext
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnName("created_date")
-                    .HasColumnType("date");
+                    .HasColumnType("timestamp");
 
                 entity.Property(e => e.Description)
                     .IsRequired()
@@ -172,7 +172,7 @@ namespace Happy.Weddings.Blog.Data.DatabaseContext
 
                 entity.Property(e => e.UpdatedDate)
                     .HasColumnName("updated_date")
-                    .HasColumnType("date");
+                    .HasColumnType("timestamp");
             });
 
             OnModelCreatingPartial(modelBuilder);

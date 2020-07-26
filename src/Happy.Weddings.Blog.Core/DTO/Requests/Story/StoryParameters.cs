@@ -21,8 +21,8 @@ namespace Happy.Weddings.Blog.Core.DTO.Requests.Story
         public DateTime? ToDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets or sets the search keyword.
         /// </summary>
-        public string Name { get; set; }
+        public string SearchKeyword { get; set; }
     }
 }

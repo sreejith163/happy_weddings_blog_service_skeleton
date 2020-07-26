@@ -1,6 +1,5 @@
-﻿using Happy.Weddings.Blog.Core.Entity;
+﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 
 namespace Happy.Weddings.Blog.Core.DTO.Responses.Story
 {
@@ -9,7 +8,7 @@ namespace Happy.Weddings.Blog.Core.DTO.Responses.Story
         /// <summary>
         /// Gets or sets the identifier.
         /// </summary>
-        public Guid Id { get; set; }
+        public int StoryId { get; set; }
 
         /// <summary>
         /// Gets or sets the title.
@@ -20,6 +19,11 @@ namespace Happy.Weddings.Blog.Core.DTO.Responses.Story
         /// Gets or sets the description.
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user identifier.
+        /// </summary>
+        public int UserId { get; set; }
 
         /// <summary>
         /// Gets or sets the author.
@@ -39,16 +43,13 @@ namespace Happy.Weddings.Blog.Core.DTO.Responses.Story
         /// <summary>
         /// Gets or sets the updated by.
         /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string UpdatedBy { get; set; }
 
         /// <summary>
         /// Gets or sets the updated on.
         /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public DateTime UpdatedDate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the comments.
-        /// </summary>
-        public IEnumerable<Comments> Comments { get; set; }
     }
 }

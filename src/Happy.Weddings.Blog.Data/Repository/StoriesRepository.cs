@@ -42,7 +42,7 @@ namespace Happy.Weddings.Blog.Data.Repository
         public StoriesRepository(
             BlogContext repositoryContext,
             IMapper mapper,
-            ISortHelper<StoryResponse> sortHelper, 
+            ISortHelper<StoryResponse> sortHelper,
             IDataShaper<StoryResponse> dataShaper)
             : base(repositoryContext)
         {
@@ -59,28 +59,12 @@ namespace Happy.Weddings.Blog.Data.Repository
         public async Task<PagedList<Entity>> GetAllStories(StoryParameters storyParameters)
         {
             var stories = FindAll().ProjectTo<StoryResponse>(mapper.ConfigurationProvider);
-            SearchByTitle(ref stories, storyParameters.Name);
+            SearchByTitleOrDescription(ref stories, storyParameters.SearchKeyword);
             FilterByDate(ref stories, storyParameters.FromDate, storyParameters.ToDate);
             var sortedStories = sortHelper.ApplySort(stories, storyParameters.OrderBy);
             var shapedStories = dataShaper.ShapeData(sortedStories, storyParameters.Fields);
 
             return await PagedList<Entity>.ToPagedList(shapedStories, storyParameters.PageNumber, storyParameters.PageSize);
-        }
-
-        /// <summary>
-        /// Gets the story by identifier.
-        /// </summary>
-        /// <param name="storyId">The story identifier.</param>
-        /// <param name="fields">The fields.</param>
-        /// <returns></returns>
-        public async Task<Entity> GetStoryById(int storyId, string fields)
-        {
-            var story = await FindByCondition(story => story.StoryId.Equals(storyId))
-                .DefaultIfEmpty(new Stories())
-                .ProjectTo<StoryResponse>(mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync();
-
-            return dataShaper.ShapeData(story, fields);
         }
 
         /// <summary>
@@ -110,10 +94,11 @@ namespace Happy.Weddings.Blog.Data.Repository
         /// </summary>
         /// <param name="storyId">The story identifier.</param>
         /// <returns></returns>
-        public async Task<Stories> GetStoryWithDetails(int storyId)
+        public async Task<StoryResponseDetails> GetStoryWithDetails(int storyId)
         {
             return await FindByCondition(story => story.StoryId.Equals(storyId))
                 .Include(ac => ac.Comments)
+                .ProjectTo<StoryResponseDetails>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
         }
 
@@ -157,13 +142,14 @@ namespace Happy.Weddings.Blog.Data.Repository
         /// Searches the by title.
         /// </summary>
         /// <param name="stories">The stories.</param>
-        /// <param name="title">The title.</param>
-        private void SearchByTitle(ref IQueryable<StoryResponse> stories, string title)
+        /// <param name="searchText">The search text.</param>
+        private void SearchByTitleOrDescription(ref IQueryable<StoryResponse> stories, string searchText)
         {
-            if (!stories.Any() || string.IsNullOrWhiteSpace(title))
+            if (!stories.Any() || string.IsNullOrWhiteSpace(searchText))
                 return;
 
-            stories = stories.Where(o => string.Equals(o.Title, title, StringComparison.OrdinalIgnoreCase));
+            stories = stories.Where(o => string.Equals(o.Title, searchText, StringComparison.OrdinalIgnoreCase) || 
+                                         string.Equals(o.Description, searchText, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
