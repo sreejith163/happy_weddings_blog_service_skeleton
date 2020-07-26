@@ -5,13 +5,16 @@ using Happy.Weddings.Blog.Core.Entity;
 using Happy.Weddings.Blog.Core.Helpers;
 using Happy.Weddings.Blog.Core.Infrastructure;
 using Happy.Weddings.Blog.Core.Repository;
+using Happy.Weddings.Blog.Core.Services;
 using Happy.Weddings.Blog.Data.DatabaseContext;
 using Happy.Weddings.Blog.Data.Repository;
 using Happy.Weddings.Blog.Infrastructure;
+using Happy.Weddings.Blog.Messaging.Receiver.v1;
 using Happy.Weddings.Blog.Service.Commands.v1.Story;
 using Happy.Weddings.Blog.Service.Handlers.v1.Story;
 using Happy.Weddings.Blog.Service.Helpers;
 using Happy.Weddings.Blog.Service.Queries.v1.Story;
+using Happy.Weddings.Blog.Service.Services;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -67,7 +70,11 @@ namespace Happy.Weddings.Blog.API.Extensions
             services.AddScoped<IDataShaper<Comments>, DataShaper<Comments>>();
 
             services.AddTransient<IConfigurationManager, ConfigurationManager>();
+
+            services.AddTransient<IUserNameUpdateService, UserNameUpdateService>();
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+
+            services.AddHostedService<UsernameUpdateReceiver>();
 
             return services;
         }

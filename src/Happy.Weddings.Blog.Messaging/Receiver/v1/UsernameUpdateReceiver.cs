@@ -61,14 +61,14 @@ namespace Happy.Weddings.Blog.Messaging.Receiver.v1
         /// <param name="rabbitMqOptions">The rabbit mq options.</param>
         public UsernameUpdateReceiver(
             IUserNameUpdateService userNameUpdateService, 
-            IOptions<RabbitMqConfig> rabbitMqOptions)
+            RabbitMqConfig rabbitMqOptions)
         {
             this.userNameUpdateService = userNameUpdateService;
-            hostname = rabbitMqOptions.Value.Hostname;
-            queueName = rabbitMqOptions.Value.QueueName;
-            exchangeName = rabbitMqOptions.Value.ExchangeName;
-            username = rabbitMqOptions.Value.UserName;
-            password = rabbitMqOptions.Value.Password;
+            hostname = rabbitMqOptions.Hostname;
+            queueName = rabbitMqOptions.QueueName;
+            exchangeName = rabbitMqOptions.ExchangeName;
+            username = rabbitMqOptions.UserName;
+            password = rabbitMqOptions.Password;
             InitializeRabbitMqListener();
         }
 
