@@ -31,6 +31,11 @@ namespace Happy.Weddings.Blog.Core.Entity
         public string Description { get; set; }
 
         /// <summary>
+        /// Gets or sets the user identifier.
+        /// </summary>
+        public int UserId { get; set; }
+
+        /// <summary>
         /// Gets or sets the author.
         /// </summary>
         public string Author { get; set; }

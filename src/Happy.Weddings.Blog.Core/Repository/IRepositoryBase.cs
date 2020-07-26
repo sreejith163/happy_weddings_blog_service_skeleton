@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -33,6 +34,12 @@ namespace Happy.Weddings.Blog.Core.Repository
         /// </summary>
         /// <param name="entity">The entity.</param>
         void Update(T entity);
+
+        /// <summary>
+        /// Updates the range.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        void UpdateRange(IEnumerable<T> entity);
 
         /// <summary>
         /// Deletes the specified entity.

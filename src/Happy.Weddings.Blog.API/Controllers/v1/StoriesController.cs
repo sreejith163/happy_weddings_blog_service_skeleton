@@ -8,7 +8,6 @@ using Happy.Weddings.Blog.Service.Commands.v1;
 using Happy.Weddings.Blog.Service.Queries.v1;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace Happy.Weddings.Blog.API.Controllers.v1
 {

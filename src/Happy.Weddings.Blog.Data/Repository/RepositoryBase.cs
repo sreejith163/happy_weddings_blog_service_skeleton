@@ -2,6 +2,7 @@
 using Happy.Weddings.Blog.Data.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -62,6 +63,15 @@ namespace Happy.Weddings.Blog.Data.Repository
         public void Update(T entity)
         {
             RepositoryContext.Set<T>().Update(entity);
+        }
+
+        /// <summary>
+        /// Updates the range.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        public void UpdateRange(IEnumerable<T> entities)
+        {
+            RepositoryContext.Set<T>().UpdateRange(entities);
         }
 
         /// <summary>

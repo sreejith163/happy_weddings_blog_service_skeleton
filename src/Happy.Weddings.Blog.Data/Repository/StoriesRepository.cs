@@ -9,6 +9,7 @@ using Happy.Weddings.Blog.Core.Repository;
 using Happy.Weddings.Blog.Data.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -94,6 +95,17 @@ namespace Happy.Weddings.Blog.Data.Repository
         }
 
         /// <summary>
+        /// Gets the stories by user identifier.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns></returns>
+        public async Task<List<Stories>> GetStoriesByUserId(int userId)
+        {
+            return await FindByCondition(story => story.UserId.Equals(userId))
+                .ToListAsync();
+        }
+
+        /// <summary>
         /// Gets the story with details.
         /// </summary>
         /// <param name="storyId">The story identifier.</param>
@@ -121,6 +133,15 @@ namespace Happy.Weddings.Blog.Data.Repository
         public void UpdateStory(Stories story)
         {
             Update(story);
+        }
+
+        /// <summary>
+        /// Updates the stories.
+        /// </summary>
+        /// <param name="stories">The stories.</param>
+        public void UpdateStories(List<Stories> stories)
+        {
+            UpdateRange(stories);
         }
 
         /// <summary>

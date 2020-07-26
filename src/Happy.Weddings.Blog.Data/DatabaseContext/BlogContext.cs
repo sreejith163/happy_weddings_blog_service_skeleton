@@ -133,6 +133,10 @@ namespace Happy.Weddings.Blog.Data.DatabaseContext
                     .HasColumnName("story_id")
                     .HasColumnType("int(11)");
 
+                entity.Property(e => e.UserId)
+                    .HasColumnName("user_id")
+                    .HasColumnType("int(11)");
+
                 entity.Property(e => e.Author)
                     .IsRequired()
                     .HasColumnName("author")

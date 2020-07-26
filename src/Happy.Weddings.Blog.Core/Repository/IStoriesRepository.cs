@@ -1,7 +1,7 @@
 ﻿using Happy.Weddings.Blog.Core.Domain;
 using Happy.Weddings.Blog.Core.DTO.Requests;
 using Happy.Weddings.Blog.Core.Entity;
-using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Happy.Weddings.Blog.Core.Repository
@@ -31,6 +31,13 @@ namespace Happy.Weddings.Blog.Core.Repository
         Task<Stories> GetStoryById(int storyId);
 
         /// <summary>
+        /// Gets the stories by user identifier.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns></returns>
+        Task<List<Stories>> GetStoriesByUserId(int userId);
+
+        /// <summary>
         /// Gets the story with details.
         /// </summary>
         /// <param name="storyId">The story identifier.</param>
@@ -48,6 +55,12 @@ namespace Happy.Weddings.Blog.Core.Repository
         /// </summary>
         /// <param name="story">The story.</param>
         void UpdateStory(Stories story);
+
+        /// <summary>
+        /// Updates the stories.
+        /// </summary>
+        /// <param name="story">The story.</param>
+        void UpdateStories(List<Stories> story);
 
         /// <summary>
         /// Deletes the story.

@@ -1,7 +1,6 @@
 ﻿using Happy.Weddings.Blog.Core.DTO.Requests;
 using Happy.Weddings.Blog.Core.DTO.Responses;
 using MediatR;
-using System;
 
 namespace Happy.Weddings.Blog.Service.Commands.v1
 {
