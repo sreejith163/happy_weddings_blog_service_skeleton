@@ -30,6 +30,17 @@ namespace Happy.Weddings.Blog.Data.Repository
         /// <summary>
         /// Finds all.
         /// </summary>
+        /// <param name="query">The query.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns></returns>
+        public IQueryable<T> FindAll(string query, params object[] parameters)
+        {
+            return RepositoryContext.Set<T>().FromSqlRaw(query, parameters).AsNoTracking();
+        }
+
+        /// <summary>
+        /// Finds all.
+        /// </summary>
         /// <returns></returns>
         public IQueryable<T> FindAll()
         {

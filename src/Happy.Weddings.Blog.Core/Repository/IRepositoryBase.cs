@@ -13,6 +13,14 @@ namespace Happy.Weddings.Blog.Core.Repository
         /// <summary>
         /// Finds all.
         /// </summary>
+        /// <param name="query">The query.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns></returns>
+        IQueryable<T> FindAll(string query, params object[] parameters);
+
+        /// <summary>
+        /// Finds all.
+        /// </summary>
         /// <returns></returns>
         IQueryable<T> FindAll();
 

@@ -51,7 +51,7 @@ namespace Happy.Weddings.Blog.Service.Handlers.v1.Story
         {
             try
             {
-                var story = await repository.Stories.GetStoryWithDetails(request.StoryId);
+                var story = await repository.Stories.GetStoryById(request.StoryId);
                 if (story == null)
                 {
                     return new APIResponse(HttpStatusCode.NotFound);

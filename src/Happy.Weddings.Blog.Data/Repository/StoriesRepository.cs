@@ -8,6 +8,7 @@ using Happy.Weddings.Blog.Core.Helpers;
 using Happy.Weddings.Blog.Core.Repository;
 using Happy.Weddings.Blog.Data.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,10 +59,17 @@ namespace Happy.Weddings.Blog.Data.Repository
         /// <returns></returns>
         public async Task<PagedList<Entity>> GetAllStories(StoryParameters storyParameters)
         {
-            var stories = FindAll().ProjectTo<StoryResponse>(mapper.ConfigurationProvider);
-            SearchByTitleOrDescription(ref stories, storyParameters.SearchKeyword);
-            FilterByDate(ref stories, storyParameters.FromDate, storyParameters.ToDate);
-            var sortedStories = sortHelper.ApplySort(stories, storyParameters.OrderBy);
+            var getStoriesParams = new object[] {
+                new MySqlParameter("@pageSize", storyParameters.PageSize),
+                new MySqlParameter("@pageNumber", (storyParameters.PageNumber - 1) * storyParameters.PageSize),
+                new MySqlParameter("@searchKeyword", storyParameters.SearchKeyword),
+                new MySqlParameter("@fromDate", storyParameters.FromDate),
+                new MySqlParameter("@toDate", storyParameters.ToDate)
+            };
+
+            var stories = await FindAll("CALL GetAllStories(@pageSize, @pageNumber, @searchKeyword, @fromDate, @toDate)", getStoriesParams).ToListAsync();
+            var mappedStories = stories.AsQueryable().ProjectTo<StoryResponse>(mapper.ConfigurationProvider);
+            var sortedStories = sortHelper.ApplySort(mappedStories, storyParameters.OrderBy);
             var shapedStories = dataShaper.ShapeData(sortedStories, storyParameters.Fields);
 
             return await PagedList<Entity>.ToPagedList(shapedStories, storyParameters.PageNumber, storyParameters.PageSize);
@@ -74,8 +82,12 @@ namespace Happy.Weddings.Blog.Data.Repository
         /// <returns></returns>
         public async Task<Stories> GetStoryById(int storyId)
         {
-            return await FindByCondition(story => story.StoryId.Equals(storyId))
-                .FirstOrDefaultAsync();
+            var getStoryParams = new object[] {
+                new MySqlParameter("@id", storyId)
+            };
+
+            var stories = await FindAll("CALL GetStorybyId(@id)", getStoryParams).ToListAsync();
+            return stories.FirstOrDefault();
         }
 
         /// <summary>
@@ -85,8 +97,11 @@ namespace Happy.Weddings.Blog.Data.Repository
         /// <returns></returns>
         public async Task<List<Stories>> GetStoriesByUserId(int userId)
         {
-            return await FindByCondition(story => story.UserId.Equals(userId))
-                .ToListAsync();
+            var getStoryParams = new object[] {
+                new MySqlParameter("@id", userId)
+            };
+
+            return await FindAll("CALL GetStorybyUserId(@id)", getStoryParams).ToListAsync();
         }
 
         /// <summary>
@@ -136,41 +151,6 @@ namespace Happy.Weddings.Blog.Data.Repository
         public void DeleteStory(Stories story)
         {
             Delete(story);
-        }
-
-        /// <summary>
-        /// Searches the by title.
-        /// </summary>
-        /// <param name="stories">The stories.</param>
-        /// <param name="searchText">The search text.</param>
-        private void SearchByTitleOrDescription(ref IQueryable<StoryResponse> stories, string searchText)
-        {
-            if (!stories.Any() || string.IsNullOrWhiteSpace(searchText))
-                return;
-
-            stories = stories.Where(o => string.Equals(o.Title, searchText, StringComparison.OrdinalIgnoreCase) || 
-                                         string.Equals(o.Description, searchText, StringComparison.OrdinalIgnoreCase));
-        }
-
-        /// <summary>
-        /// Filters the by date.
-        /// </summary>
-        /// <param name="stories">The stories.</param>
-        /// <param name="fromDate">From date.</param>
-        /// <param name="toDate">To date.</param>
-        private void FilterByDate(ref IQueryable<StoryResponse> stories, DateTime? fromDate, DateTime? toDate)
-        {
-            if (!stories.Any())
-                return;
-
-            if (fromDate != null)
-            {
-                stories = stories.Where(s => s.CreatedDate >= fromDate);
-            }
-            if (toDate != null)
-            {
-                stories = stories.Where(s => s.CreatedDate <= toDate);
-            }
         }
     }
 }
