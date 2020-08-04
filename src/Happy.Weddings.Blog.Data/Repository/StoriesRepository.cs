@@ -60,14 +60,14 @@ namespace Happy.Weddings.Blog.Data.Repository
         public async Task<PagedList<Entity>> GetAllStories(StoryParameters storyParameters)
         {
             var getStoriesParams = new object[] {
-                new MySqlParameter("@pageSize", storyParameters.PageSize),
-                new MySqlParameter("@pageNumber", (storyParameters.PageNumber - 1) * storyParameters.PageSize),
+                new MySqlParameter("@limit", storyParameters.PageSize),
+                new MySqlParameter("@offset", (storyParameters.PageNumber - 1) * storyParameters.PageSize),
                 new MySqlParameter("@searchKeyword", storyParameters.SearchKeyword),
                 new MySqlParameter("@fromDate", storyParameters.FromDate),
                 new MySqlParameter("@toDate", storyParameters.ToDate)
             };
 
-            var stories = await FindAll("CALL GetAllStories(@pageSize, @pageNumber, @searchKeyword, @fromDate, @toDate)", getStoriesParams).ToListAsync();
+            var stories = await FindAll("CALL GetAllStories(@limit, @offset, @searchKeyword, @fromDate, @toDate)", getStoriesParams).ToListAsync();
             var mappedStories = stories.AsQueryable().ProjectTo<StoryResponse>(mapper.ConfigurationProvider);
             var sortedStories = sortHelper.ApplySort(mappedStories, storyParameters.OrderBy);
             var shapedStories = dataShaper.ShapeData(sortedStories, storyParameters.Fields);
