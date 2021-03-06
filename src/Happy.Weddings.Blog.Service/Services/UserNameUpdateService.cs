@@ -3,6 +3,8 @@ using Happy.Weddings.Blog.Core.Services;
 using Happy.Weddings.Blog.Service.Commands.v1.Story;
 using Happy.Weddings.Blog.Service.Queries.v1.Story;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,15 +18,15 @@ namespace Happy.Weddings.Blog.Service.Services
         /// <summary>
         /// The mediator
         /// </summary>
-        private readonly IMediator mediator;
+        private readonly IServiceScopeFactory serviceScopeFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserNameUpdateService"/> class.
         /// </summary>
         /// <param name="mediator">The mediator.</param>
-        public UserNameUpdateService(IMediator mediator)
+        public UserNameUpdateService(IServiceScopeFactory serviceScopeFactory)
         {
-            this.mediator = mediator;
+            this.serviceScopeFactory = serviceScopeFactory;
         }
 
         /// <summary>
@@ -33,6 +35,8 @@ namespace Happy.Weddings.Blog.Service.Services
         /// <param name="updateUserFullNameModel">The update user full name model.</param>
         public async Task UpdateUserNameInStories(UpdateUserFullNameModel updateUserFullNameModel)
         {
+            using var scope = serviceScopeFactory.CreateScope();
+            var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
             var getStoriesByUserIdQuery = new GetStoryByUserIdQuery(updateUserFullNameModel.Id);
             var stories = await mediator.Send(getStoriesByUserIdQuery);

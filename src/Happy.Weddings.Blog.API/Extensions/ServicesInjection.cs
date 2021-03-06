@@ -22,6 +22,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace Happy.Weddings.Blog.API.Extensions
 {
@@ -59,6 +61,7 @@ namespace Happy.Weddings.Blog.API.Extensions
             services.AddMediatR(typeof(Startup));
             services.AddTransient<IRequestHandler<GetAllStoriesQuery, APIResponse>, GetAllStoriesHandler>();
             services.AddTransient<IRequestHandler<GetStoryQuery, APIResponse>, GetStoryHandler>();
+            services.AddTransient<IRequestHandler<GetStoryByUserIdQuery, List<Stories>>, GetStoryByUserIdHandler>();
             services.AddTransient<IRequestHandler<CreateStoryCommand, APIResponse>, CreateStoryHandler>();
             services.AddTransient<IRequestHandler<UpdateStoryCommand, APIResponse>, UpdateStoryHandler>();
             services.AddTransient<IRequestHandler<DeleteStoryCommand, APIResponse>, DeleteStoryHandler>();
