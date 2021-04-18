@@ -92,7 +92,7 @@ namespace Happy.Weddings.Blog.Messaging.Receiver.v1
                 var updateUserFullNameModel = JsonConvert.DeserializeObject<UpdateUserFullNameModel>(message);
                 HandleMessage(updateUserFullNameModel);
 
-                channel.BasicAck(ea.DeliveryTag, true);
+                channel.BasicAck(ea.DeliveryTag, false);
             };
 
             consumer.Shutdown += OnConsumerShutdown;
@@ -101,7 +101,7 @@ namespace Happy.Weddings.Blog.Messaging.Receiver.v1
             consumer.ConsumerCancelled += OnConsumerConsumerCancelled;
 
             channel.BasicConsume(queue: queueName,
-                                 autoAck: true,
+                                 autoAck: false,
                                  consumer: consumer);
             return Task.CompletedTask;
         }
